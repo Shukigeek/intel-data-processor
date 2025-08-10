@@ -1,16 +1,39 @@
-# This is a sample Python script.
+# main.py
+from mission_processor import load_mission_data, filter_by_status, count_by_priority
+from personnel_analyzer import load_personnel_data, filter_by_clearance, group_by_unit
+from report_generator import generate_mission_summary, generate_personnel_report
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def main():
+    print("=== ARMY INTELLIGENCE DATA PROCESSOR ===\n")
+    missions = load_mission_data()
+    personnel = load_personnel_data()
 
+    while True:
+        print("1. Mission Summary")
+        print("2. Personnel Report")
+        print("3. Filter Active Missions")
+        print("4. Show Top Secret Personnel")
+        print("5. Exit")
+        choice = input("\nSelect option: ")
+        if choice == '1':
+            print(generate_mission_summary(missions))
+        elif choice == '2':
+            print(generate_personnel_report(personnel))
+        elif choice == '3':
+            active = filter_by_status(missions, "Active")
+            for mission in active:
+                print(f"Mission {mission['id']}: {mission['location']}")
+        elif choice == '4':
+            cleared = filter_by_clearance(personnel, "Top Secret")
+            for person in cleared:
+                print(f"{person['rank']} {person['name']} - Unit {person['unit']}")
+        elif choice == '5':
+            print("Session terminated.")
+            break
+        else:
+            print("Invalid selection")
+        print()
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+if __name__ == "__main__":
+    main()
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
